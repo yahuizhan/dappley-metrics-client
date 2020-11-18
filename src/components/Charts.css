@@ -1,0 +1,18 @@
+.chartArea {
+    width: 100%;
+    /* height: auto; */
+    min-height: 50%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.chart {
+    /* display: contents; */
+    /* height: 70% !important; */
+    /* width: 50% !important; */
+}
+
+.Chart {
+    height: 600px;
+}
