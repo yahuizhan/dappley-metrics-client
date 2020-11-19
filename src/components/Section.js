@@ -3,8 +3,7 @@ import Charts from './Charts';
 import { isPlotDataEmpty } from "../constants";
 
 function Section(props) {
-    const { name, data, axisRange } = props;
-    //console.log("axisRange section prop", timeRange)
+    const { name, data, addChartRangeFilter } = props;
     return (
         <section id={name} className="section">
             {
@@ -18,7 +17,7 @@ function Section(props) {
             }
             {
                 isPlotDataEmpty(data["plotData"]) ?
-                    <div>Not Available</div> : <Charts name={name} dataToPlot={data["plotData"]} axisRange={axisRange}></Charts>
+                    <div>Not Available</div> : <Charts name={name} dataToPlot={data["plotData"]} addChartRangeFilter={addChartRangeFilter} />
             }
         </section>
     );

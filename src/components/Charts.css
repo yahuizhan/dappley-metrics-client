@@ -7,12 +7,10 @@
     justify-content: space-evenly;
 }
 
-.chart {
-    /* display: contents; */
-    /* height: 70% !important; */
-    /* width: 50% !important; */
+.chart-with-control {
+    height: 600px;
 }
 
-.Chart {
-    height: 600px;
+.chart-without-control {
+    height: 450px;
 }

@@ -112,7 +112,6 @@ export const isDatasetEmpty = (data) => {
     if (Object.keys(data).length === 0) return true;
     for (const key in data) {
         if (!data[key]["consts"] || !data[key]["plotData"]) return true;
-        //if (isPlotDataEmpty(data[key]["plotData"])) return true;
     }
     return false;
 }
@@ -132,43 +131,47 @@ export const isPlotDataEmpty = (data) => {
     return false;
 }
 
-/* @param timeRange is string[] or int[] of two time stamps -- from-time stamp and to-time stamp
-   @return [{v: <from-time int>, f: <string representation>}, {v: <to-time int>, f: <string representation>}]
- */
-export const parseTimeRange = (timeRange) => {
-    let range = [];
-    for (const time of timeRange) {
-        const timestamp = parseInt(time);
-        const curr = new Date(timestamp * 1000);
-        //console.log("curr time", curr);
-        const hour = curr.getHours();
-        const min = curr.getMinutes();
-        const hourStr = hour < 10 ? "0"+hour : hour.toString();
-        const minStr = min < 10 ? "0"+min : min.toString();
-        range.push({v: timestamp, f: hourStr + ":" + minStr});
+export const generatePlotData = (dataArr) => {
+    if (!dataArr || dataArr.length < 2) {
+        return [];
     }
-    return range;
+
+    const titleline = dataArr[0];
+    const isTimeFirstCol = titleline[0] === "time";
+    const newTitleLine = formColumnTitles(titleline);
+    let plotData = [newTitleLine];
+
+    for (let i = 1; i < dataArr.length; i++) {
+        const row = dataArr[i];
+        let cleanedRow = [];
+        if (isTimeFirstCol) {
+            const time = new Date(row[0] * 1000);
+            cleanedRow.push(time);
+        } else {
+            cleanedRow.push(row[0]);
+        }
+
+        for (let j = 1; j < row.length; j++) {
+            if (typeof row[j] === "number" && row[j] < 0) {
+                cleanedRow.push(null);
+            } else {
+                cleanedRow.push(row[j]);
+            }
+        }
+        plotData.push(cleanedRow);
+    }
+
+    return plotData
 }
 
-export const cleanNulls = (dataArr) => {
-    //console.log("dataArr before cleaning nulls: ", dataArr);
-    let res = [];
-    for (const row of dataArr) {
-        //console.log("one row:", row);
-        if (typeof row[0] === "number") {
-            let newRow = [];
-            for (const entry of row) {
-                if (entry < 0) {
-                    newRow.push(null);
-                } else {
-                    newRow.push(entry);
-                }
-            }
-            res.push(newRow);
+const formColumnTitles = (titleline) => {
+    let newTitleLine = [];
+    for (const title of titleline) {
+        if (title === "time") {
+            newTitleLine.push({type: "date", label: title});
         } else {
-            res.push(row);
+            newTitleLine.push({type: "number", label: title});
         }
     }
-    //console.log("dataArr after cleaning nulls: ", res);
-    return res;
+    return newTitleLine;
 }
