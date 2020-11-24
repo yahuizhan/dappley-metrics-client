@@ -1,6 +1,5 @@
 .chartArea {
     width: 100%;
-    /* height: auto; */
     min-height: 50%;
     display: flex;
     flex-flow: row wrap;
@@ -8,9 +7,13 @@
 }
 
 .chart-with-control {
-    height: 600px;
+    height: 400px;
 }
 
 .chart-without-control {
     height: 450px;
+}
+
+.tooltip {
+    background-color: rgba(243, 241, 241, 0.4);
 }

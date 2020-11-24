@@ -12,6 +12,9 @@ function History() {
   const [selected, setSelected] = useState('');
   const [data, setData] = useState({});
 
+  const [section, setSection] = useState('');
+
+
   const readFilenames = async (signal) => {
     try {
       const response = await fetch("http://localhost:9000/getListOfDataFiles", {signal})
@@ -23,11 +26,11 @@ function History() {
     }
   }
 
-  const readData = async (filename, signal) => {
+  const readData = async (filename) => {
     try {
-      const response = await fetch("http://localhost:9000/getHistory/" + filename, {signal})
+      const response = await fetch("http://localhost:9000/getHistory/" + filename)
         .then(res => res.json());
-      const allData = response.success ? response.data : {};
+      const allData = response.success ? response.content : {};
       if (!response.success) {
         alert(response.error ? response.error : ("Could not read " + filename));
       }
@@ -38,8 +41,20 @@ function History() {
     };
   }
 
-  const handleSelect = (value) => {
+  const handleSelectDataset = (value) => {
     setSelected(value);
+    if (value !== '') {
+        readData(value)
+          .then(response => {
+            setData(response);
+          });
+    }
+  }
+
+  const handleSelectSection = (value) => {
+    if (value !== '') {
+        setSection(value);
+    }
   }
 
   useEffect(() => {
@@ -54,13 +69,6 @@ function History() {
         });
     }
 
-    if (selected !== '') {
-      readData(selected, signal)
-        .then(response => {
-          setData(response);
-        });
-    }
-
     return () => { abortController.abort(); };
   }, [loadedFilenames, selected]);
 
@@ -68,9 +76,14 @@ function History() {
     loadedFilenames && filenames && filenames.length > 0 ? 
       <div className="main">
         <label>Please Select A Dataset: </label>
-        <Select defaultValue="" style={{ width: 320 }} onChange={handleSelect}>
+        <Select defaultValue="" style={{ width: 320 }} onChange={handleSelectDataset}>
           <Option value="">Please Select</Option>
           {filenames.map((fn, idx) => ( <Option key={idx} value={fn}>{fn}</Option> ))}
+        </Select>
+        <label>Please Select A Section: </label>
+        <Select defaultValue="" style={{ width: 320 }} onChange={handleSelectSection}>
+          <Option value="">Please Select</Option>
+          {Object.keys(data).map((sec, idx) => ( <Option key={idx} value={sec}>{sec}</Option> ))}
         </Select>
         {
           selected === '' ?
@@ -79,9 +92,10 @@ function History() {
             Object.keys(data).length === 0 ?
               <div>Loading ... </div>
               :
-              <div id="historyCharts">
-                {Object.keys(data).map((sec,idx) => (<Section key={idx} name={sec} data={data[sec]} addChartRangeFilter={true} />))}
-              </div>
+              section === '' ?
+                <div> No section is selected </div>
+                :
+                <Section name={section} data={data[section]} addChartRangeFilter={true} />
         }
       </div>
       :

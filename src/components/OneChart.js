@@ -1,79 +1,66 @@
-import { Chart } from "react-google-charts";
-import React, { useState } from "react";
-import { generatePlotData } from "../constants";
-import { Select } from 'antd';
-const { Option } = Select;
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush } from 'recharts';
+import { fromUnixTime, format } from 'date-fns';
+import { lineColors, generatePlotData } from "../constants";
 
 function OneChart(props) {
-    const { chartTitle, legendPosition, dataToPlot, addChartRangeFilter } = props;
-    const [vAxisFormat, setVAxisFormat] = useState("decimal");
-    //console.log("dataToPlot: ", dataToPlot);
-    const handleSelect = (value) => {
-        setVAxisFormat(value);
-    }
-
+    const { chartTitle, dataToPlot, addChartRangeFilter } = props;
     const dataToPlot_ = generatePlotData(dataToPlot);
-    //console.log("dataToPlot_", dataToPlot_);
-   
-    const getChartOptions = () => {
-        let chartOpt = {
-            title: chartTitle,
-            hAxis: { title: dataToPlot_[0][0]},
-            vAxis: { title: dataToPlot_[0][1], format: vAxisFormat },
-            legend: { position: legendPosition },
-            chartArea: { width: "90%" }
-        }
-        if (dataToPlot[0][0] === "time") {
-            chartOpt.hAxis.format = "HH:mm";
-        }
-        return chartOpt
+    const xTitle = dataToPlot[0][0];
+    const yTitles = dataToPlot[0].slice(1);
+
+    let unit = "";
+    if (yTitles.length > 0 && 
+        (yTitles[0].includes("Percent") || yTitles[0].includes("percent") || 
+        yTitles[0].includes("Percentage") || yTitles[0].includes("percentage"))) {
+        unit = "%";
     }
 
-    const getDateFormatter = () => {
-        if (dataToPlot[0][0] === "time") {
-            return { type: 'DateFormat', column: 0, options: { pattern: "HH:mm" } };
+    const formatYAxis = (tickItem) => {
+        if (tickItem >= 1000000000) {
+            return (tickItem / 1000000000).toPrecision(3) + "B";
         }
-        return {};
+        if (tickItem >= 1000000) {
+            return (tickItem / 1000000).toPrecision(3) + "M";
+        }
+        if (tickItem >= 1000) {
+            return (tickItem / 1000).toPrecision(3) + "K";
+        }
+        return tickItem.toPrecision(3) + unit;
     }
 
-    const chartElement = <Chart width={'600px'} height={'400px'}
-                        chartType="LineChart" loader={<div>Loading Chart</div>}
-                        data={dataToPlot_} options={getChartOptions()} formatters={[getDateFormatter()]} />;
-    const chartElementWithControl = React.cloneElement(
-        chartElement,
-        { 
-            chartPackages: ['corechart', 'controls'],
-            controls: [
-                {
-                    controlType: 'ChartRangeFilter',
-                    options: {
-                        filterColumnIndex: 0,
-                        ui: {
-                            chartType: 'LineChart',
-                            chartOptions: {
-                                height: 100,
-                                width: 600,
-                                chartArea: { width: '90%', height: '80%' },
-                                hAxis: { baselineColor: 'none' },
-                            },
-                        },
-                    },
-                    controlPosition: 'bottom',
-                },
-            ]
-        },
-        null
-    );
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload[0] && payload[0].payload) {
+            const displayObj = payload[0].payload;
+            return (
+                <div className="tooltip">
+                    <p className="label">{`${xTitle} : ${xTitle === "time" ? format(fromUnixTime(label), "HH:mm:ss") : label}`}</p>
+                    {yTitles.map((v, i) => <p key={i} className={v}>{`${v}: ${displayObj[v]}${unit}`}</p>)}
+                </div>
+            );
+            }
+        return null;
+    };
+
+    const brush = <Brush dataKey={xTitle} height={20} stroke="#000000" y={260} startIndex={0} endIndex={Math.round((dataToPlot.length) / 2)}>
+                    <LineChart>
+                        {yTitles.map((v, i) => <Line key={i} dataKey={v} stroke={lineColors[i]} stackId="a" />)}
+                    </LineChart>
+                </Brush>;
+
 
     return (
         <div className={addChartRangeFilter ? "chart-with-control" : "chart-without-control"}>
-            <label>Vertical axis style: </label>
-            <Select defaultValue="decimal" style={{ width: 105 }} onChange={handleSelect}>
-                <Option value="decimal">decimal</Option>
-                <Option value="short">short</Option>
-                <Option value="scientific">scientific</Option>
-            </Select>
-            { addChartRangeFilter ? chartElementWithControl : chartElement }
+            <h3>{chartTitle}</h3>
+            <LineChart width={600} height={300} data={dataToPlot_} margin={{ top: 5, right: 30, left: 20, bottom: 50 }}>
+                <XAxis dataKey={xTitle} type="number" domain={['auto', 'auto']} label={{value: xTitle, position: "bottom"}}
+                    tickFormatter={(value) => (xTitle === "time" ? format(fromUnixTime(value), "HH:mm:ss") : value)} />
+                <YAxis type="number" domain={['dataMin', 'dataMax']} tickFormatter={formatYAxis} />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend layout="horizontal" verticalAlign="top" align="right"/>
+                {yTitles.map((v, i) => <Line key={i} dataKey={v} type="monotone" stroke={lineColors[i]} />)}
+                {addChartRangeFilter ? brush : null}
+            </LineChart>
         </div>
     );
 }

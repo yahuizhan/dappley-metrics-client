@@ -1,4 +1,3 @@
-import { chartStyles } from "../constants";
 import OneChart from './OneChart';
 import './Charts.css';
 
@@ -8,9 +7,9 @@ function Charts(props) {
     return (
         
         <div id={name+"Charts"} className="chartArea">
-            {Object.keys(dataToPlot).map((key, idx) => (
-                <OneChart key={idx} chartTitle={chartStyles[name+"_"+key].title} dataToPlot={dataToPlot[key]}
-                legendPosition={chartStyles[name+"_"+key].legend.position} addChartRangeFilter={addChartRangeFilter} />
+            {dataToPlot.map((plot, idx) => (
+                <OneChart key={idx} chartTitle={plot.title} dataToPlot={plot.data}
+                 addChartRangeFilter={addChartRangeFilter} />
             ))}
         </div>
     );

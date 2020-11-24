@@ -16,8 +16,8 @@ function Section(props) {
                     <Constants data={data["consts"]}></Constants> : <div></div>
             }
             {
-                isPlotDataEmpty(data["plotData"]) ?
-                    <div>Not Available</div> : <Charts name={name} dataToPlot={data["plotData"]} addChartRangeFilter={addChartRangeFilter} />
+                isPlotDataEmpty(data["plots"]) ?
+                    <div>Not Available</div> : <Charts name={name} dataToPlot={data["plots"]} addChartRangeFilter={addChartRangeFilter} />
             }
         </section>
     );
