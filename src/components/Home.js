@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Section from './Section';
 import './pageBody.css';
-import { apiConn, isDatasetEmpty } from '../constants';
+import { isDatasetEmpty } from '../plotDataHandler';
+import config from '../config.json';
 import { Switch } from 'antd';
 
 function Home() {
@@ -13,7 +14,7 @@ function Home() {
     const timeNowInSec = Math.round((new Date()).getTime() / 1000);
     const from = timeNowInSec - 3600;
     try {
-      const response = await fetch(apiConn + "/getLatest/" + from.toString(), {signal: signal})
+      const response = await fetch(config.SERVER_URL + "/getLatest/" + from.toString(), {signal: signal})
         .then(res => res.json());
       //console.log("response", response);
       const allData = response.success ? response.content : {};

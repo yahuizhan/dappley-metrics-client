@@ -1,6 +1,6 @@
 import Constants from './Constants';
 import Charts from './Charts';
-import { isPlotDataEmpty } from "../constants";
+import { isPlotDataEmpty } from "../plotDataHandler";
 
 function Section(props) {
     const { name, data, addChartRangeFilter } = props;

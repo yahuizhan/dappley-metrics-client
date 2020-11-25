@@ -1,6 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush } from 'recharts';
 import { fromUnixTime, format } from 'date-fns';
-import { lineColors, generatePlotData } from "../constants";
+import { generatePlotData } from "../plotDataHandler";
+import config from '../config.json';
 
 function OneChart(props) {
     const { chartTitle, dataToPlot, addChartRangeFilter } = props;
@@ -43,7 +44,7 @@ function OneChart(props) {
 
     const brush = <Brush dataKey={xTitle} height={20} stroke="#000000" y={260} startIndex={0} endIndex={Math.round((dataToPlot.length) / 2)}>
                     <LineChart>
-                        {yTitles.map((v, i) => <Line key={i} dataKey={v} stroke={lineColors[i]} stackId="a" />)}
+                        {yTitles.map((v, i) => <Line key={i} dataKey={v} stroke={config.LINE_COLORS[i]} stackId="a" />)}
                     </LineChart>
                 </Brush>;
 
@@ -58,7 +59,7 @@ function OneChart(props) {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend layout="horizontal" verticalAlign="top" align="right"/>
-                {yTitles.map((v, i) => <Line key={i} dataKey={v} type="monotone" stroke={lineColors[i]} />)}
+                {yTitles.map((v, i) => <Line key={i} dataKey={v} type="monotone" stroke={config.LINE_COLORS[i]} />)}
                 {addChartRangeFilter ? brush : null}
             </LineChart>
         </div>

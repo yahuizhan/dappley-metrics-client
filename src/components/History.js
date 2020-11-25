@@ -3,7 +3,7 @@ import Section from './Section';
 import './pageBody.css';
 import 'antd/dist/antd.css';
 import { Select } from 'antd';
-import { apiConn } from '../constants';
+import config from '../config.json';
 const { Option } = Select;
 
 function History() {
@@ -18,7 +18,7 @@ function History() {
 
   const readFilenames = async (signal) => {
     try {
-      const response = await fetch(apiConn + "/getListOfDataFiles", {signal})
+      const response = await fetch(config.SERVER_URL + "/getListOfDataFiles", {signal})
         .then(res => res.json());
       return response;
     } catch (err) {
@@ -29,7 +29,7 @@ function History() {
 
   const readData = async (filename) => {
     try {
-      const response = await fetch(apiConn + "/getHistory/" + filename)
+      const response = await fetch(config.SERVER_URL + "/getHistory/" + filename)
         .then(res => res.json());
       const allData = response.success ? response.content : {};
       if (!response.success) {

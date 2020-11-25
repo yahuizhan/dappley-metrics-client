@@ -1,7 +1,3 @@
-export const lineColors = ["#82ca9d", "#8884d8"];
-
-export const apiConn = "http://18.223.22.43:9000"; // localhost:9000
-
 /*a valid dataset:
     {
         "block": {
