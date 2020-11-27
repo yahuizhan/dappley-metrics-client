@@ -13,7 +13,7 @@ function Section(props) {
             }
             {
                 Object.keys(data["consts"]).length > 0 ?
-                    <Constants data={data["consts"]}></Constants> : <div></div>
+                    <Constants data={data["consts"]}></Constants> : null
             }
             {
                 isPlotDataEmpty(data["plots"]) ?

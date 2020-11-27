@@ -1,4 +1,4 @@
 {
     "SERVER_URL": "http://18.223.22.43:9000",
-    "LINE_COLORS": ["#82ca9d", "#8884d8"]
+    "LINE_COLORS": ["#82ca9d", "#8884d8", "#99ccff", "#00cccc", "#9900cc"]
 }
