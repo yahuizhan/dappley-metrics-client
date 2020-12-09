@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Section from './Section';
 import './pageBody.css';
+import config from '../config.json';
 import 'antd/dist/antd.css';
 import { Select } from 'antd';
-import config from '../config.json';
 const { Option } = Select;
 
 function History() {
@@ -13,7 +13,7 @@ function History() {
   const [selected, setSelected] = useState('');
   const [data, setData] = useState({});
 
-  const [section, setSection] = useState('');
+  const [section, setSection] = useState("all");
 
 
   const readFilenames = async (signal) => {
@@ -81,9 +81,9 @@ function History() {
           <Option value="">Please Select</Option>
           {filenames.map((fn, idx) => ( <Option key={idx} value={fn}>{fn}</Option> ))}
         </Select>
-        <label>Please Select A Section: </label>
-        <Select defaultValue="" style={{ width: 320 }} onChange={handleSelectSection}>
-          <Option value="">Please Select</Option>
+        <label>  Please Select A Section: </label>
+        <Select defaultValue="all" style={{ width: 320 }} onChange={handleSelectSection}>
+          <Option value="all">All</Option>
           {Object.keys(data).map((sec, idx) => ( <Option key={idx} value={sec}>{sec}</Option> ))}
         </Select>
         {
@@ -93,8 +93,8 @@ function History() {
             Object.keys(data).length === 0 ?
               <div>Loading ... </div>
               :
-              section === '' ?
-                <div> No section is selected </div>
+              section === "all" ?
+                Object.keys(data).map((sec,idx) => (<Section key={idx} name={sec} data={data[sec]} addChartRangeFilter={true} />))
                 :
                 <Section name={section} data={data[section]} addChartRangeFilter={true} />
         }
