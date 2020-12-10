@@ -72,6 +72,7 @@ function Home() {
         <Option value="120">2 minutes</Option>
         <Option value="300">5 minutes</Option>
       </Select>
+      <p className="unit">Units: 1K = 1000; 1M = 1000K; 1Bi = 1000M; 1B = 1 byte; 1KiB = 1024B; 1MiB = 1024KiB; 1GiB = 1024MiB </p>
       <br/>
       {isDatasetEmpty(data) ? 
         <p>The page is loading...<br/>If no plot is displaying in a few seconds, the latest dataset could be invalid or empty. Please ensure api is connected and sending correct data.</p>

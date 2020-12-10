@@ -35,6 +35,7 @@ function History() {
       if (!response.success) {
         alert(response.error ? response.error : ("Could not read " + filename));
       }
+      console.log("allData ", allData)
       return allData;
     } catch(err) {
       alert("Couldn't read " + filename + ":\n" + err.toString());
@@ -86,6 +87,7 @@ function History() {
           <Option value="all">All</Option>
           {Object.keys(data).map((sec, idx) => ( <Option key={idx} value={sec}>{sec}</Option> ))}
         </Select>
+        <p className="unit">Units: 1K = 1000; 1M = 1000K; 1Bi = 1000M; 1B = 1 byte; 1KiB = 1024B; 1MiB = 1024KiB; 1GiB = 1024MiB </p>
         {
           selected === '' ?
             <div>No Dataset Selected</div>

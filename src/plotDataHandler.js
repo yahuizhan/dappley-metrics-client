@@ -14,6 +14,7 @@ a valid plotdata:
     [
         {
             "title": "Title Of Chart1",
+            "unitType": "percentage",
             "data": [
                 ["col1", "col2"],
                 [0,0],
@@ -24,6 +25,7 @@ a valid plotdata:
         },
         {
             "title": "Title Of Chart2",
+            "unitType": "bytes",
             "data": [
                 ["col1", "col2"],
                 [0,0],
@@ -44,11 +46,10 @@ export const isDatasetEmpty = (data) => {
 }
 
 export const isPlotDataEmpty = (data) => {
-    // ensure data[key][0][0] and data[key][0][1] are both valid
     if (data.length === 0) return true;
 
     for (const plot of data) {
-        if (!plot["title"] || plot["data"].length < 2) return true;
+        if (plot["data"].length < 2) return true;
         for (const row of plot["data"]) {
             if (row.length < 2) {
                 return true;
@@ -75,4 +76,40 @@ export const generatePlotData = (dataArr) => {
         data.push(cleanedRow);
     }
     return data;
+}
+
+export const shortenYAxisValue = (number, unitType) => {
+    switch (unitType) {
+        case "percentage":
+            break;
+        case "bytes":
+            if (number >= 1073741824) { // 1073741824 = 1024^3
+                return (number / 1073741824).toPrecision(3) + "GiB";
+            }
+            if (number >= 1048576) { // 1048576 = 1024^3
+                return (number / 1048576).toPrecision(3) + "MiB";
+            }
+            if (number >= 1024) {
+                return (number / 1024).toPrecision(3) + "KiB";
+            }
+            return number + "B";
+        default:
+            if (number >= 1000000000) {
+                return (number / 1000000000).toPrecision(3) + "Bi";
+            }
+            if (number >= 1000000) {
+                return (number / 1000000).toPrecision(3) + "M";
+            }
+            if (number >= 1000) {
+                return (number / 1000).toPrecision(3) + "K";
+            }
+            break;
+    }
+    if (number === 0) {
+        return "0";
+    }
+    if (number < 1) {
+        return number.toPrecision(2) + "";
+    }
+    return number.toPrecision(3) + ""
 }

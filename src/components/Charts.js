@@ -8,7 +8,7 @@ function Charts(props) {
         
         <div id={name+"Charts"} className="chartArea">
             {dataToPlot.map((plot, idx) => (
-                <OneChart key={idx} chartTitle={plot.title} dataToPlot={plot.data}
+                <OneChart key={idx} chartTitle={plot.title} dataToPlot={plot.data} unitType={plot.unitType}
                  addChartRangeFilter={addChartRangeFilter} />
             ))}
         </div>

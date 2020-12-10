@@ -1,32 +1,18 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush } from 'recharts';
 import { fromUnixTime, format } from 'date-fns';
-import { generatePlotData } from "../plotDataHandler";
+import { generatePlotData, shortenYAxisValue } from "../plotDataHandler";
 import config from '../config.json';
 
 function OneChart(props) {
-    const { chartTitle, dataToPlot, addChartRangeFilter } = props;
+    const { chartTitle, dataToPlot, unitType, addChartRangeFilter } = props;
     const dataToPlot_ = generatePlotData(dataToPlot);
     const xTitle = dataToPlot[0][0];
     const yTitles = dataToPlot[0].slice(1);
-
-    let unit = "";
-    if (yTitles.length > 0 && 
-        (yTitles[0].includes("Percent") || yTitles[0].includes("percent") || 
-        yTitles[0].includes("Percentage") || yTitles[0].includes("percentage"))) {
-        unit = "%";
-    }
+    
+    let unit = unitType === "percentage" ? "%" : ""
 
     const formatYAxis = (tickItem) => {
-        if (tickItem >= 1000000000) {
-            return (tickItem / 1000000000).toPrecision(3) + "B";
-        }
-        if (tickItem >= 1000000) {
-            return (tickItem / 1000000).toPrecision(3) + "M";
-        }
-        if (tickItem >= 1000) {
-            return (tickItem / 1000).toPrecision(3) + "K";
-        }
-        return tickItem.toPrecision(3) + unit;
+        return shortenYAxisValue(tickItem, unitType) + unit;
     }
 
     const CustomTooltip = ({ active, payload, label }) => {
