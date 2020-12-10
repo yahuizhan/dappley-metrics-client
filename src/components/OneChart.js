@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush } from 'recharts';
 import { fromUnixTime, format } from 'date-fns';
-import { generatePlotData, shortenYAxisValue } from "../plotDataHandler";
+import { generatePlotData, shortenValue } from "../plotDataHandler";
 import config from '../config.json';
 
 function OneChart(props) {
@@ -12,7 +12,7 @@ function OneChart(props) {
     let unit = unitType === "percentage" ? "%" : ""
 
     const formatYAxis = (tickItem) => {
-        return shortenYAxisValue(tickItem, unitType) + unit;
+        return shortenValue(tickItem, unitType) + unit;
     }
 
     const CustomTooltip = ({ active, payload, label }) => {

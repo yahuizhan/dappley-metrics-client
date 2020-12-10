@@ -8,7 +8,7 @@ function Section(props) {
         <section id={name} className="section">
             <h1>{name}</h1>
             {
-                Object.keys(data["consts"]).length > 0 ?
+                data["consts"].length > 0 ?
                     <Constants data={data["consts"]}></Constants> : null
             }
             {

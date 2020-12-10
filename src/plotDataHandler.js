@@ -78,7 +78,7 @@ export const generatePlotData = (dataArr) => {
     return data;
 }
 
-export const shortenYAxisValue = (number, unitType) => {
+export const shortenValue = (number, unitType) => {
     switch (unitType) {
         case "percentage":
             break;
