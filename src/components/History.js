@@ -87,7 +87,7 @@ function History() {
           <Option value="all">All</Option>
           {Object.keys(data).map((sec, idx) => ( <Option key={idx} value={sec}>{sec}</Option> ))}
         </Select>
-        <p className="unit">Units: 1K = 1000; 1M = 1000K; 1Bi = 1000M; 1B = 1 byte; 1KiB = 1024B; 1MiB = 1024KiB; 1GiB = 1024MiB </p>
+        <p className="unit">Units: 1Bi = 1000M; 1M = 1000K; 1K = 1000; 1GB = 1024MB; 1MB = 1024KB; 1KB = 1024B; 1B = 1 byte</p>
         {
           selected === '' ?
             <div>No Dataset Selected</div>

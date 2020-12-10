@@ -84,13 +84,13 @@ export const shortenYAxisValue = (number, unitType) => {
             break;
         case "bytes":
             if (number >= 1073741824) { // 1073741824 = 1024^3
-                return (number / 1073741824).toPrecision(3) + "GiB";
+                return (number / 1073741824).toPrecision(3) + "GB";
             }
             if (number >= 1048576) { // 1048576 = 1024^3
-                return (number / 1048576).toPrecision(3) + "MiB";
+                return (number / 1048576).toPrecision(3) + "MB";
             }
             if (number >= 1024) {
-                return (number / 1024).toPrecision(3) + "KiB";
+                return (number / 1024).toPrecision(3) + "KB";
             }
             return number + "B";
         default:
