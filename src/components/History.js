@@ -35,7 +35,6 @@ function History() {
       if (!response.success) {
         alert(response.error ? response.error : ("Could not read " + filename));
       }
-      console.log("allData ", allData)
       return allData;
     } catch(err) {
       alert("Couldn't read " + filename + ":\n" + err.toString());
