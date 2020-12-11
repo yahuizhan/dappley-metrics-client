@@ -1,10 +1,10 @@
-# Dappley Metrics API in Go
+## Dappley Metrics API in Go
 The API for displaying the metrics of Dappley.
 
-## Environment Requirement
+### Environment Requirement
 Golang version >= 1.14
 
-## Configuration and Build
+### Configuration and Build
 1. Update the "host" and "port" in dappley-metrics-go-api/metrics_api/default.conf to the dapp node that the API is to connect.
 
 2. Build
@@ -13,23 +13,23 @@ cd metrics_api
 go build
 ```
 
-## Running API
+### Running API
 ```bash
 ./metrics_api
 ```
 
-# Dappley Metrics Client
+## Dappley Metrics Client
 
 The frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 This frontend displays the plots of the metrics of the Dapply (https://github.com/dappley/go-dappley).
 
-## Environment Requirement
+### Environment Requirement
 
 NodeJS version >= 14.15 \
 NPM verison >= 6.14
 
-## Build and Configuration
+### Build and Configuration
 1. Import dependencies
 
 ```bash
@@ -39,7 +39,7 @@ npm install
 
 2. Open dappley-metrics-client/src/config.json and update "SERVER_URL" to the address of API. If the project is running locally, the "SERVER_URL" would be [http://localhost:9000](http://localhost:9000).
 
-## Running Client
+### Running Client
 ```bash
 npm start
 ```
