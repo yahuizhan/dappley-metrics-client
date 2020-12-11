@@ -1,12 +1,12 @@
 # Dappley Metrics Client
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
-This web application displays the plots of the metrics of the Dapply protocal (https://github.com/dappley/go-dappley).\
-The backend API that supports this web application can be found here: https://github.com/yahuizhan/dappley-metrics-go-api.\
+This web application displays the plots of the metrics of the Dapply protocal (https://github.com/dappley/go-dappley).
+The backend API that supports this web application can be found here: https://github.com/yahuizhan/dappley-metrics-go-api.
 
 ## Environment Requirement
 
-NodeJS version >= 14.15
+NodeJS version >= 14.15 \
 NPM verison >= 6.14
 
 ## Build
