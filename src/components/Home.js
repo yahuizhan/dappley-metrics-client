@@ -62,7 +62,7 @@ function Home() {
         <Option value="all">All</Option>
         {Object.keys(data).map((sec, idx) => ( <Option key={idx} value={sec}>{sec}</Option> ))}
       </Select>
-      <label>  Auto Fresh </label>
+      <label>  Auto Refresh </label>
       <Select defaultValue="0" style={{ width: 160 }} onChange={handleSelectRefresh}>
         <Option value="0">Off</Option>
         <Option value="5">5 seconds</Option>
@@ -72,7 +72,7 @@ function Home() {
         <Option value="120">2 minutes</Option>
         <Option value="300">5 minutes</Option>
       </Select>
-      <p className="unit">Units: 1Bi = 1000M; 1M = 1000K; 1K = 1000; 1GB = 1024MB; 1MB = 1024KB; 1KB = 1024B; 1B = 1 byte</p>
+      <p className="unit">Notations of Y axis: <br/> 1Bi = 1000M; 1M = 1000K; 1K = 1000; <br/>1GB = 1024MB; 1MB = 1024KB; 1KB = 1024B; 1B = 1 byte</p>
       <br/>
       {isDatasetEmpty(data) ? 
         <p>The page is loading...<br/>If no plot is displaying in a few seconds, the latest dataset could be invalid or empty. Please ensure api is connected and sending correct data.</p>
