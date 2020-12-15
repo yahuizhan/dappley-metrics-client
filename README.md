@@ -5,7 +5,7 @@ The API for displaying the metrics of Dappley.
 Golang version >= 1.14
 
 ### Configuration and Build
-1. Update the "host" and "port" in dappley-metrics-go-api/metrics_api/default.conf to the dapp node that the API is to connect.
+1. Update the "host" and "port" in dappley-metrics-go-api/metrics_api/default.conf to those of the dapp node that the API is to connect.
 
 2. Build
 ```bash
