@@ -21,7 +21,7 @@ function OneChart(props) {
             return (
                 <div className="tooltip">
                     <p className="label">{`${xTitle} : ${xTitle === "time" ? format(fromUnixTime(label), "HH:mm:ss") : label}`}</p>
-                    {yTitles.map((v, i) => <p key={i} className={v}>{`${v}: ${displayObj[v]}${unit}`}</p>)}
+                    {yTitles.map((v, i) => <p key={i} className={v}>{`${v}: ${shortenValue(displayObj[v], unitType)}${unit}`}</p>)}
                 </div>
             );
             }
